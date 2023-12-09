@@ -27,6 +27,7 @@ from openlibrary.core.booknotes import Booknotes
 from openlibrary.core.bookshelves import Bookshelves
 from openlibrary.core.observations import Observations
 from openlibrary.core.ratings import Ratings
+from openlibrary.core.follows import PubSub
 from openlibrary.plugins.recaptcha import recaptcha
 from openlibrary.plugins.upstream.mybooks import MyBooksTemplate
 from openlibrary.plugins import openlibrary as olib
@@ -1047,6 +1048,19 @@ class export_books(delegate.page):
 
         return csv_string(Ratings.select_all_by_username(username), format_rating)
 
+
+class my_follows(delegate.page):
+    path = r"/people/([^/]+)/(followers|following)"
+
+    def GET(self, username, key=""):
+        mb = MyBooksTemplate(username, 'following')
+        follows = (
+            PubSub.get_subscribers(username) if key == 'followers'
+            else PubSub.get_subscriptions(username)
+        )
+        manage = key == 'following'
+        template = render['account/follows'](mb.me, follows, manage=manage)
+        return mb.render(header_title=_(key.capitalize()), template=template)
 
 class account_loans(delegate.page):
     path = "/account/loans"

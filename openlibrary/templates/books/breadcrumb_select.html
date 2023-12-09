@@ -12,6 +12,7 @@ $def with (mb, selected="books")
     $ options += [(_("Lists (%(count)d)", count=len(mb.lists)) , url_prefix + "/lists")]
     $if mb.is_my_page:
       $ options += [
+      $   (_("Feed"), readlog_url % "feed"),
       $   (_("Loans"), "/account/loans"),
       $   (_("Notes"), url_prefix + "/books/notes"),
       $   (_("Reviews"), url_prefix + "/books/observations"),

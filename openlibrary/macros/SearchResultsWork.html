@@ -112,7 +112,9 @@ $code:
             <div>$_('Orphaned Edition')</div>
         </div>
       $if extra:
-        $:extra
+        $:extra 
+      $if 'log' in doc:
+	<a href="/people/$(doc['log']['username'])">$doc['log']['username']</a> $_("added to") $doc['log']['shelf'] on $doc['log']['updated'].strftime("%Y-%m-%dT%H:%M:%SZ")
       </div>
 
   <div class="searchResultItemCTA">
