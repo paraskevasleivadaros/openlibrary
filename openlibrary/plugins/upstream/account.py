@@ -1055,12 +1055,14 @@ class my_follows(delegate.page):
     def GET(self, username, key=""):
         mb = MyBooksTemplate(username, 'following')
         follows = (
-            PubSub.get_subscribers(username) if key == 'followers'
+            PubSub.get_subscribers(username)
+            if key == 'followers'
             else PubSub.get_subscriptions(username)
         )
         manage = key == 'following'
         template = render['account/follows'](mb.me, follows, manage=manage)
         return mb.render(header_title=_(key.capitalize()), template=template)
+
 
 class account_loans(delegate.page):
     path = "/account/loans"

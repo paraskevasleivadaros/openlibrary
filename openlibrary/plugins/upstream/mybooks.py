@@ -124,8 +124,13 @@ class mybooks_feed(delegate.page):
             docs = PubSub.get_feed(username)
             doc_count = len(docs)
             template = render['account/reading_log'](
-                docs, mb.key, doc_count, doc_count,
-                mb.is_my_page, current_page=1, user=mb.me
+                docs,
+                mb.key,
+                doc_count,
+                doc_count,
+                mb.is_my_page,
+                current_page=1,
+                user=mb.me,
             )
             return mb.render(header_title=_("Feed"), template=template)
         raise web.seeother(mb.user.key)
@@ -390,7 +395,8 @@ class MyBooksTemplate:
         self.is_my_page = self.me and self.me.key.split('/')[-1] == self.username
         self.is_subscribed = (
             PubSub.is_subscribed(self.my_username, self.username)
-            if not self.is_my_page and self.is_public else -1
+            if not self.is_my_page and self.is_public
+            else -1
         )
         self.key = key.lower()
         self.sponsorships = []
